@@ -8,9 +8,9 @@ import java.util.Date;
 import javax.swing.SwingUtilities;
 
 import org.rapla.components.iolayer.IOInterface;
+import org.rapla.facade.CalendarModel;
 import org.rapla.framework.RaplaContext;
 import org.rapla.framework.RaplaException;
-import org.rapla.gui.CalendarModel;
 import org.rapla.gui.RaplaGUIComponent;
 
 public class WobHtmlExporter extends RaplaGUIComponent {
@@ -38,7 +38,7 @@ public class WobHtmlExporter extends RaplaGUIComponent {
 			throw new NullPointerException();
 
 		final Frame frame = (Frame) SwingUtilities.getRoot(getMainComponent());
-		IOInterface io = (IOInterface) getService( IOInterface.ROLE);
+		IOInterface io = getService( IOInterface.class);
         byte[] content = output.getBytes();
         try {
             io.saveFile( frame, null, new String[] {"html"}, createFileName(), content);

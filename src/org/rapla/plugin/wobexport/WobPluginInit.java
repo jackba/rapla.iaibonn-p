@@ -28,20 +28,20 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import org.rapla.components.mail.MailException;
 import org.rapla.entities.Category;
 import org.rapla.entities.domain.Permission;
+import org.rapla.facade.CalendarModel;
 import org.rapla.framework.RaplaContext;
 import org.rapla.framework.RaplaException;
-import org.rapla.gui.CalendarModel;
-import org.rapla.gui.MenuExtensionPoint;
 import org.rapla.gui.RaplaGUIComponent;
 import org.rapla.gui.toolkit.DialogUI;
-import org.rapla.plugin.RaplaExtensionPoints;
-import org.rapla.plugin.mail.MailPlugin;
+import org.rapla.gui.toolkit.IdentifiableMenuEntry;
 import org.rapla.plugin.mail.MailToUserInterface;
 
-public class WobPluginInit extends RaplaGUIComponent {
+public class WobPluginInit extends RaplaGUIComponent  implements IdentifiableMenuEntry,ActionListener  {
+
+	String id = "Wob Export";
+	private JMenuItem item;
 
 	CalendarModel model;
 
@@ -58,68 +58,74 @@ public class WobPluginInit extends RaplaGUIComponent {
 			if (!getUser().isAdmin())
 				return;
 		}
-        model = (CalendarModel) getService(CalendarModel.ROLE);
-        MenuExtensionPoint export = (MenuExtensionPoint) getService( RaplaExtensionPoints.EXPORT_MENU_EXTENSION_POINT);
-        export.insert( createMenu());
+		item = new JMenuItem(id);
+		item.setIcon(getIcon("icon.export"));
+		item.setIcon( getIcon("icon.export") );
+        item.addActionListener(this);
+        model = (CalendarModel) getService(CalendarModel.class);
+	}
+	
+    
+    public String getId() {
+		return id;
 	}
 
-	private JMenuItem createMenu() {
-		JMenuItem item = new JMenuItem("Wob Export");
-		item.setIcon(getIcon("icon.export"));
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				try {
-					/*
-					final ExportDialog useCase = new ExportDialog(getContext());
-					
-					String[] buttons = new String[] { getString("abort"),
-							getString("export") };
-					final DialogUI dialog = DialogUI.create(getContext(),
-							getMainComponent(), true, useCase.getComponent(),
-							buttons);
-					dialog.setTitle("Veranstaltung exportieren");
-					dialog.setSize(400, 200);
-					dialog.getButton(0).setIcon(getIcon("icon.abort"));
-					dialog.getButton(1).setIcon(getIcon("icon.copy"));
-
-					// dialog.getButton( 1).setEnabled(false);
-					final RaplaCalendar sourceBox = useCase.getSourceChooser();
-					final RaplaCalendar destBox = useCase.getDestChooser();
-					sourceBox.setDate(model.getSelectedDate());
-					Calendar cal = getRaplaLocale().createCalendar();
-					cal.setTime(model.getSelectedDate());
-					cal.add(Calendar.MONTH, 1);
-					destBox.setDate(cal.getTime());
-					DateChangeListener listener = new DateChangeListener() {
-						public void dateChanged(DateChangeEvent evt) {
-							Date startDate = sourceBox.getDate();
-							Date endDate = destBox.getDate();
-							dialog.getButton(1).setEnabled(
-									startDate.before(endDate));
-						}
-					};
-					sourceBox.addDateChangeListener(listener);
-					destBox.addDateChangeListener(listener);
-					dialog.startNoPack();
-					if (dialog.getSelectedIndex() == 1) {
-						Date startDate = sourceBox.getDate();
-						Date endDate = destBox.getDate();
-						export(startDate, endDate);
-					}
-					*/
-
-					Date startDate = model.getStartDate();
-					Date endDate = model.getEndDate();
-					export(startDate, endDate);
-					
-				} catch (Exception ex) {
-					showException(ex, getMainComponent());
-				}
-			}
-		});
+	public JMenuItem getMenuElement() {
 		return item;
 	}
+		
+	public void actionPerformed(ActionEvent evt) {
+		try {
+			/*
+			final ExportDialog useCase = new ExportDialog(getContext());
+			
+			String[] buttons = new String[] { getString("abort"),
+					getString("export") };
+			final DialogUI dialog = DialogUI.create(getContext(),
+					getMainComponent(), true, useCase.getComponent(),
+					buttons);
+			dialog.setTitle("Veranstaltung exportieren");
+			dialog.setSize(400, 200);
+			dialog.getButton(0).setIcon(getIcon("icon.abort"));
+			dialog.getButton(1).setIcon(getIcon("icon.copy"));
 
+			// dialog.getButton( 1).setEnabled(false);
+			final RaplaCalendar sourceBox = useCase.getSourceChooser();
+			final RaplaCalendar destBox = useCase.getDestChooser();
+			sourceBox.setDate(model.getSelectedDate());
+			Calendar cal = getRaplaLocale().createCalendar();
+			cal.setTime(model.getSelectedDate());
+			cal.add(Calendar.MONTH, 1);
+			destBox.setDate(cal.getTime());
+			DateChangeListener listener = new DateChangeListener() {
+				public void dateChanged(DateChangeEvent evt) {
+					Date startDate = sourceBox.getDate();
+					Date endDate = destBox.getDate();
+					dialog.getButton(1).setEnabled(
+							startDate.before(endDate));
+				}
+			};
+			sourceBox.addDateChangeListener(listener);
+			destBox.addDateChangeListener(listener);
+			dialog.startNoPack();
+			if (dialog.getSelectedIndex() == 1) {
+				Date startDate = sourceBox.getDate();
+				Date endDate = destBox.getDate();
+				export(startDate, endDate);
+			}
+			*/
+			CalendarModel model = getService(CalendarModel.class);
+             
+			Date startDate = model.getStartDate();
+			Date endDate = model.getEndDate();
+			export(startDate, endDate);
+			
+		} catch (Exception ex) {
+			showException(ex, getMainComponent());
+		}
+	
+	}
+	
 	private void export(Date start, Date end) throws RaplaException {
 		final WobExport export = new WobExport(getContext());
 		export.setHighlightProblems(true);
@@ -188,9 +194,7 @@ public class WobPluginInit extends RaplaGUIComponent {
 
 		if (dialog.getSelectedIndex() == 1) {
 			MailToUserInterface mail = (MailToUserInterface) getContext()
-					.lookup(
-							MailToUserInterface.ROLE + "/"
-									+ MailPlugin.MAIL_ON_SERVER);
+					.lookup(MailToUserInterface.class);
 			String subject = "WOB Export ";
 
 			String body;

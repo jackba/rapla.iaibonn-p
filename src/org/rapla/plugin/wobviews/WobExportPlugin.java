@@ -11,10 +11,10 @@
  | Definition as published by the Open Source Initiative (OSI).             |
  *--------------------------------------------------------------------------*/
 package org.rapla.plugin.wobviews;
-import org.apache.avalon.framework.configuration.Configuration;
+import org.rapla.client.RaplaClientExtensionPoints;
+import org.rapla.framework.Configuration;
 import org.rapla.framework.Container;
 import org.rapla.framework.PluginDescriptor;
-import org.rapla.plugin.RaplaExtensionPoints;
 
 public class WobExportPlugin implements PluginDescriptor
 {
@@ -33,7 +33,7 @@ public class WobExportPlugin implements PluginDescriptor
         if ( !config.getAttributeAsBoolean("enabled", false) )
         	return;
 
-        container.addContainerProvidedComponent( RaplaExtensionPoints.CALENDAR_VIEW_EXTENSION, WobViewFactory.class.getName(), WobViewFactory.WOB_VIEW, config);
+        container.addContainerProvidedComponent( RaplaClientExtensionPoints.CALENDAR_VIEW_EXTENSION, WobViewFactory.class, config);
     }
 
     public Object getPluginMetaInfos( String key )

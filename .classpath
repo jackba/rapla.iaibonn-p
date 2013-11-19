@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="generated-src"/>
-	<classpathentry kind="src" path="/Rapla">
+	<classpathentry kind="src" path="/rapla">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**/internal/**"/>
 			<accessrule kind="accessible" pattern="org/apache/avalon/**"/>

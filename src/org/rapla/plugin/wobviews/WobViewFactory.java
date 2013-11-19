@@ -2,15 +2,15 @@ package org.rapla.plugin.wobviews;
 
 import javax.swing.Icon;
 
+import org.rapla.facade.CalendarModel;
 import org.rapla.framework.RaplaContext;
 import org.rapla.framework.RaplaException;
-import org.rapla.gui.CalendarModel;
 import org.rapla.gui.SwingCalendarView;
-import org.rapla.gui.ViewFactory;
+import org.rapla.gui.SwingViewFactory;
 import org.rapla.gui.images.Images;
 import org.rapla.servletpages.RaplaPageGenerator;
 
-public class WobViewFactory implements ViewFactory{
+public class WobViewFactory implements SwingViewFactory {
 
 	public final static String WOB_VIEW = "wobview";
 

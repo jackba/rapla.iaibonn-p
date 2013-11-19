@@ -23,18 +23,18 @@ import javax.swing.SwingUtilities;
 
 import org.rapla.components.calendar.DateChangeEvent;
 import org.rapla.components.calendar.DateChangeListener;
+import org.rapla.facade.CalendarModel;
 import org.rapla.framework.RaplaContext;
 import org.rapla.framework.RaplaException;
-import org.rapla.gui.CalendarModel;
 import org.rapla.gui.RaplaGUIComponent;
 import org.rapla.gui.SwingCalendarView;
 import org.rapla.gui.toolkit.HTMLView;
-import org.rapla.plugin.abstractcalendar.IntervallChooserPanel;
+import org.rapla.plugin.abstractcalendar.IntervalChooserPanel;
 
 public class WobView extends RaplaGUIComponent implements SwingCalendarView, Printable {
 	JPanel test = new JPanel();
 	JPanel groupPanel = new JPanel();
-	IntervallChooserPanel dateChooser;
+	IntervalChooserPanel dateChooser;
 	CalendarModel model;
 	private JScrollPane editorScrollPane;
 	private JTextPane htmlEditorPane;
@@ -51,7 +51,7 @@ public class WobView extends RaplaGUIComponent implements SwingCalendarView, Pri
         groupPanel.add( saveAsFile );
         saveAsFile.setAction( createSaveAction());
         
-		dateChooser = new IntervallChooserPanel(context,model);
+		dateChooser = new IntervalChooserPanel(context,model);
 		htmlEditorPane = new HTMLView();
 		htmlEditorPane.setEditable(false);
         dateChooser.addDateChangeListener( new DateChangeListener() {
