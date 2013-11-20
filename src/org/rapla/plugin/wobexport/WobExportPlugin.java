@@ -11,28 +11,24 @@
  | Definition as published by the Open Source Initiative (OSI).             |
  *--------------------------------------------------------------------------*/
 package org.rapla.plugin.wobexport;
-import org.rapla.client.RaplaClientExtensionPoints;
+import org.rapla.client.ClientServiceContainer;
 import org.rapla.framework.Configuration;
-import org.rapla.framework.Container;
 import org.rapla.framework.PluginDescriptor;
 
-public class WobExportPlugin implements PluginDescriptor
+public class WobExportPlugin implements PluginDescriptor<ClientServiceContainer>
 {
 
     public static final String PLUGIN_CLASS = WobExportPlugin.class.getName();
 
-    public String toString() {
-        return "Wob Export";
-    }
-
+  
     /**
      * @see org.rapla.framework.PluginDescriptor#provideServices(org.rapla.framework.general.Container)
      */
-    public void provideServices(Container container, Configuration config) {
+    public void provideServices(ClientServiceContainer container, Configuration config) {
         if ( !config.getAttributeAsBoolean("enabled", false) )
         	return;
 
-        container.addContainerProvidedComponent( RaplaClientExtensionPoints.EXPORT_MENU_EXTENSION_POINT, WobPluginInit.class, config);
+       // container.addContainerProvidedComponent( RaplaClientExtensionPoints.EXPORT_MENU_EXTENSION_POINT, WobPluginInit.class, config);
     }
 
     public Object getPluginMetaInfos( String key )
