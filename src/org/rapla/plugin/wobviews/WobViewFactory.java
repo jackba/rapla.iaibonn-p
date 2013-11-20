@@ -8,7 +8,6 @@ import org.rapla.framework.RaplaException;
 import org.rapla.gui.SwingCalendarView;
 import org.rapla.gui.SwingViewFactory;
 import org.rapla.gui.images.Images;
-import org.rapla.servletpages.RaplaPageGenerator;
 
 public class WobViewFactory implements SwingViewFactory {
 
@@ -16,10 +15,6 @@ public class WobViewFactory implements SwingViewFactory {
 
 	public SwingCalendarView createSwingView(RaplaContext context, CalendarModel model, boolean editable) throws RaplaException {
 		return new WobView( context, model, editable);
-	}
-
-	public RaplaPageGenerator createHTMLView(RaplaContext context, CalendarModel model) throws RaplaException {
-		return null;
 	}
 
 	public String getViewId() {
